@@ -1,0 +1,28 @@
+name: 问题反馈
+description: 报告可复现的问题；请先移除密钥、Cookie、签名链接和私人素材。
+title: "[问题] "
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: 发生了什么
+      description: 说明预期和实际结果，区分准备、提交、生成与发布。
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 最小复现步骤
+      description: 使用合成输入或已脱敏命令，不上传私人项目文件。
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 环境与版本
+      description: 操作系统、Python、Skill/CLI 版本与所选服务；不要填写账号凭据。
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 脱敏证据
+      description: 可选。仅提供必要错误文字，不提交完整凭据或运行目录。

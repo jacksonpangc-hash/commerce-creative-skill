@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "product": {"name": "示例水杯（离线演示）", "facts": ["演示资料：有把手。"]},
+  "sources": [{"provider": "synthetic-example", "report": "演示创意方向，不是供应商报告或真实研究"}],
+  "platform": "douyin",
+  "language": "zh",
+  "ratio": "9:16",
+  "shots": [
+    {"id": "hook", "duration": 6, "visual": "展示杯子的把手", "narration": "拿起杯子，看看把手。", "subtitle": "", "prompt": "Synthetic demonstration: a cup with a handle on a clean table. Slowly move toward the handle. No sales or efficacy claims.", "assets": []},
+    {"id": "detail", "duration": 6, "visual": "把手细节", "narration": "从这个角度看清细节。", "subtitle": "", "prompt": "Synthetic demonstration: close-up of the same cup handle, steady camera, no invented product features.", "assets": []}
+  ]
+}

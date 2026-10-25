@@ -1,0 +1,1 @@
+{"operation":"stage","provider":"presigned","params":{"assets":[{"path":"reference.mp4","kind":"video"}],"put_url":"https://example.com/REPLACE_WITH_YOUR_AUTHORIZED_PRESIGNED_PUT","read_url":"https://example.com/REPLACE_WITH_YOUR_AUTHORIZED_HTTPS_READ_URL"}}
