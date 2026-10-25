@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from commerce_core.core import Workspace, Engine, CommerceError
 from commerce_core.workflow import validate_storyboard, export_requests
@@ -54,7 +55,10 @@ class WorkflowTests(unittest.TestCase):
         req = {'operation': 'video', 'provider': 'clipcat', 'params': {
             'model': 'seedance2', 'prompt': 'literal $(do not execute)', 'duration': 6,
             'resolution': '720p', 'ratio': '9:16', 'assets': [{'path': 'product.png'}]}}
-        cmd = build_clipcat_command(req, self.ws)
+        # Command construction must not depend on a proprietary client being installed.
+        with patch('commerce_core.clipcat.executable', return_value='clipcat-offline-fixture'):
+            cmd = build_clipcat_command(req, self.ws)
+        self.assertEqual(cmd[0], 'clipcat-offline-fixture')
         self.assertIn('generate', cmd)
         self.assertNotIn('product_video', cmd)
         self.assertIn('literal $(do not execute)', cmd)

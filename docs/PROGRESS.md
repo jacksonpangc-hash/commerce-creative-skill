@@ -22,3 +22,7 @@ Plan: docs/IMPLEMENTATION.md; authority: docs/SPEC.md and approved conversation 
 - User-authorized Chinese translation: SKILL.md and all three references translated, original English files backed up privately. Frontmatter, invocation policy, command literals, API origins and Python code retained. Installed Skill and source package synchronized. No account or publishing action.
 
 - Publication phase authorized by the user on 2026-10-26: publish the independent Skill repository to GitHub and finish public docs. Missing real cases are omitted. Do not make paid calls or social posts. Repository owner verified as jacksonpangc-hash; target commerce-creative-skill, public. No tag/Release requested.
+
+- GitHub publication verified: public main branch contains the audited 66-file repository. Actual npx installation from GitHub passed in a temporary project; all 18 Skill resources matched and CLI reported 0.1.0. Global installation unchanged. No tag, Release, paid generation or social post created.
+
+- First GitHub CI run exposed a non-hermetic test: command construction relied on the author machine having Clipcat installed. Reproduced with client lookup unavailable (RED), isolated executable lookup inside the command-construction test, then all 60 local tests passed (GREEN). Product code and installed Skill unchanged. Cloud matrix rerun follows the correction.

@@ -15,7 +15,8 @@ Date: 2026-10-26. Scope: local implementation, synthetic offline tests, packagin
 | Relocated wheel / source-tarball Skill install | PASS: installed wheel into a fresh venv, copied Skill from extracted source tarball, ran relocated CLI and prepared an UNKNOWN-cost synthetic plan; 0 jobs, 0 API calls |
 | Local Codex Skill installation | PASS: new commerce-creative only; installed standalone CLI reports 0.1.0 |
 | Original Clipcat | Preserved; entry/client hashes checked locally outside the public repository |
-| GitHub repository publication | Authorized as a separate phase on 2026-10-26; remote and installation verification are recorded after publication |
+| GitHub repository publication | PASS: public repository [jacksonpangc-hash/commerce-creative-skill](https://github.com/jacksonpangc-hash/commerce-creative-skill), branch main |
+| GitHub npx Skill installation | PASS: installed from the public repository in an isolated temporary project, compared all 18 Skill resources, standalone CLI reports 0.1.0; existing global installation untouched |
 
 ## What the tests establish
 
@@ -35,7 +36,7 @@ On this Intel Mac, creating a venv with copied interpreter binaries caused `ensu
 - No real Chanjing/YouCloud report, private video or paid dataset was fetched; category briefing access is not proof of raw GMV/merchant/creator coverage.
 - No project browser was downloaded or launched. Account login, platform challenge handling, real uploads, schedules and public-post verification are NOT_RUN. A SAU zero exit would remain `submitted_unverified` until the original work is verified.
 - FFmpeg and ffprobe were absent from the tested PATH. Real lossless composition is NOT_RUN; the adapter stops explicitly when they are missing. Its offline command/error tests do not establish native media compatibility.
-- GitHub CI is provided for Python 3.10/3.12 on macOS/Linux/Windows but has not run on GitHub. Windows/Linux runtime acceptance is NOT_RUN.
+- GitHub CI is configured for Python 3.10/3.12 on macOS/Linux/Windows. Check the repository Actions for actual cloud results; installation passing does not establish cloud CI success. Windows/Linux live-provider acceptance is NOT_RUN.
 - Original Clipcat and SAU remain external dependencies. Vendor backends, paid datasets and proprietary clients are not reproduced or redistributed. This delivery does not claim model-quality or commercial-data parity.
 
 The complete source ZIP is the full repository deliverable. The wheel contains the CLI package; the Skill installer copies the self-contained Skill. Private runtime dependencies, account state, generated media and credentials are excluded.
@@ -43,3 +44,7 @@ The complete source ZIP is the full repository deliverable. The wheel contains t
 ## 中文翻译同步核验
 
 Skill 正文、命令流程、服务连接与分镜指南已翻译为中文。核对 frontmatter、界面与自动调用配置、原命令与接口字面值及 Python 文件指纹未变；源码与本机安装内容一致。原英文文件已在本机私有备份中保留，不写入公开包。此前真实调用与发布未验收的限制继续有效。
+
+## 首次云端检查与修复
+
+首次 GitHub Actions 的 Linux 检查发现命令构建测试误依赖本机已安装的原 Clipcat。用不可用的客户端查找复现后，将该测试改为独立构建参数，不调用真实客户端。产品代码未变，本机60项离线测试通过；云端结果以修复提交对应的 Actions 为准。
