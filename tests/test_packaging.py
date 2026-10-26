@@ -11,11 +11,23 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 class PackagingTests(unittest.TestCase):
-    def test_real_source_archive_handles_chinese_paths_under_non_utf8_locale(self):
+    def test_real_source_archive_handles_chinese_paths_with_legacy_text_encoding(self):
         with tempfile.TemporaryDirectory() as d:
-            env = {**os.environ, 'LC_ALL': 'C', 'PYTHONUTF8': '0', 'PYTHONCOERCECLOCALE': '0'}
-            result = subprocess.run([sys.executable, str(REPO / 'scripts/package_release.py'), '--output', d],
-                cwd=REPO, env=env, capture_output=True, text=True, encoding='utf-8')
+            # Windows has Unicode filesystem paths independently of its legacy text codepage.
+            # Setting LC_ALL=C on POSIX also changes the filesystem codec: that tests a different failure.
+            wrapper = '''import io, runpy, sys
+original_open = io.open
+def legacy_open(file, mode='r', buffering=-1, encoding=None, *args, **kwargs):
+    if 'b' not in mode and encoding is None:
+        encoding = 'cp1252'
+    return original_open(file, mode, buffering, encoding, *args, **kwargs)
+io.open = legacy_open
+script, output = sys.argv[1:]
+sys.argv = [script, '--output', output]
+runpy.run_path(script, run_name='__main__')
+'''
+            result = subprocess.run([sys.executable, '-c', wrapper, str(REPO / 'scripts/package_release.py'), d],
+                cwd=REPO, capture_output=True, text=True, encoding='utf-8')
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertTrue((Path(d) / 'commerce-creative-skill-0.2.0.zip').is_file())
     def module(self, name):
