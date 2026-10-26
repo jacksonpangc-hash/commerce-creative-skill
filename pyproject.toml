@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "commerce-creative-skill"
-version = "0.1.0"
+version = "0.2.0"
 description = "Independent multi-provider commerce creative workflow for AI agents"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -13,6 +13,9 @@ license-files = ["LICENSE"]
 authors = [{name = "Commerce Creative contributors"}]
 dependencies = []
 classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
+
+[project.optional-dependencies]
+media = ["av>=14,<17", "Pillow>=10,<13", "imageio-ffmpeg>=0.6,<0.7"]
 
 [project.urls]
 Homepage = "https://github.com/jacksonpangc-hash/commerce-creative-skill"

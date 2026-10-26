@@ -165,4 +165,7 @@ def validate_request(req, ws):
         extra_files, extra_effects = inspect_argv(p.get('argv'), ws)
         files.extend(extra_files)
         effects.update(extra_effects)
+    if 'creative_contract' in req:
+        from .campaign import contract_files
+        files.extend(contract_files(req, ws))
     return list(dict.fromkeys(files)), effects

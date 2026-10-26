@@ -1,6 +1,7 @@
 """JSON CLI. Preparing is offline; execution always names an approval snapshot."""
 
 import argparse
+import importlib.util
 import json
 import os
 import shutil
@@ -30,6 +31,7 @@ def doctor(ws):
     except CommerceError:
         clipcat = None
     return {'version': __version__, 'project': str(ws.root),
+            'media_components_present': {n: importlib.util.find_spec(n) is not None for n in ('av', 'PIL', 'imageio_ffmpeg')},
             'credentials_present': {n: bool(os.environ.get(n)) for n in names},
             'tools': {'clipcat': clipcat, 'ffmpeg': shutil.which('ffmpeg'), 'ffprobe': shutil.which('ffprobe'),
                       'sau_project_checkout': ws.path(ws.config['publisher']['checkout']).is_dir()},
@@ -41,10 +43,11 @@ def parser():
     p.add_argument('--version', action='version', version=__version__)
     sub = p.add_subparsers(dest='command', required=True)
     for name in ('init', 'doctor', 'prepare', 'show', 'execute', 'confirm-clipcat', 'status',
-                 'download', 'context', 'storyboard-check', 'storyboard-export', 'compose'):
+                 'download', 'context', 'storyboard-check', 'storyboard-export', 'compose',
+                 'media-inspect', 'render', 'review-template', 'acceptance-check'):
         s = sub.add_parser(name)
         s.add_argument('--project', required=True, help='Explicit project root; no cross-project history is read')
-        if name in {'prepare', 'storyboard-check', 'storyboard-export'}:
+        if name in {'prepare', 'storyboard-check', 'storyboard-export', 'media-inspect', 'render', 'review-template', 'acceptance-check'}:
             s.add_argument('file', help='JSON file inside project')
         if name in {'show', 'execute', 'confirm-clipcat', 'status', 'download'}:
             s.add_argument('id', help='Local plan/job id')
@@ -53,6 +56,8 @@ def parser():
             permission_flags(s)
         if name == 'status':
             s.add_argument('--refresh', action='store_true', help='Query the provider; otherwise read local state only')
+        if name == 'download':
+            s.add_argument('--public-dns', action='store_true', help='TUN fake-DNS only: resolve artifact hostname with fixed public HTTPS DNS, pin public IP and verify TLS; no system configuration changes')
         if name == 'context':
             s.add_argument('--product', required=True)
             s.add_argument('--report', required=True)
@@ -66,6 +71,19 @@ def parser():
         if name == 'compose':
             s.add_argument('--files', nargs='+', required=True)
             s.add_argument('--out', required=True)
+        if name in {'media-inspect', 'render', 'review-template', 'acceptance-check'}:
+            s.add_argument('--out', required=True, help='New project-local output, never overwrite')
+        if name == 'media-inspect':
+            s.add_argument('--samples', type=int, default=24)
+        if name == 'render':
+            s.add_argument('--segments', required=True, help='JSON mapping shot ids to local video paths')
+            s.add_argument('--voiceover')
+            s.add_argument('--music')
+            s.add_argument('--font-file')
+        if name in {'review-template', 'acceptance-check'}:
+            s.add_argument('--inspection', required=True)
+        if name == 'acceptance-check':
+            s.add_argument('--review', required=True)
     return p
 
 
@@ -92,20 +110,21 @@ def run(args):
         return ws.read_job(args.id)
     if args.command == 'download':
         from .media import download_job
-        return download_job(ws, args.id)
+        from .http import HTTP
+        return download_job(ws, args.id, HTTP(public_dns=args.public_dns))
     if args.command == 'context':
         from .workflow import context_prompt
         report = ws.path(args.report).read_text(encoding='utf-8')
         return context_prompt(ws.load(args.product), report, args.language, args.platform)
     if args.command == 'storyboard-check':
         from .workflow import validate_storyboard
-        return validate_storyboard(ws.load(args.file))
+        return validate_storyboard(ws.load(args.file), ws)
     if args.command == 'storyboard-export':
         from .workflow import export_requests
         target = ws.path(args.out)
         if target.exists():
             raise CommerceError('Output directory exists; choose a new export directory')
-        reqs = export_requests(ws.load(args.file), args.provider, ws, args.model, args.catalog_checked)
+        reqs = export_requests(ws.load(args.file), args.provider, ws, args.model, args.catalog_checked, story_path=args.file)
         target.mkdir(parents=True)
         files = []
         for i, req in enumerate(reqs):
@@ -116,6 +135,20 @@ def run(args):
     if args.command == 'compose':
         from .media import compose
         return compose(ws, args.files, args.out)
+    if args.command == 'media-inspect':
+        from .inspection import inspect_media
+        return inspect_media(ws, args.file, args.out, args.samples)
+    if args.command == 'render':
+        from .inspection import render_media
+        return render_media(ws, ws.load(args.file), ws.load(args.segments), args.out, args.voiceover, args.music, args.font_file)
+    if args.command in {'review-template', 'acceptance-check'}:
+        from .acceptance import review_template, accept_campaign
+        if ws.path(args.out).exists():
+            raise CommerceError('Output already exists; choose a new file')
+        result = (review_template(ws, args.file, args.inspection) if args.command == 'review-template' else
+                  accept_campaign(ws, args.file, args.inspection, ws.load(args.review)))
+        ws.save(args.out, result)
+        return result
     raise CommerceError('Unknown command')
 
 

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "dx",
+    "type": "web",
+    "scope": "category",
+    "title": "稻香村官网：糕点系列绿豆饼",
+    "locator": "https://www.daoxiangcun.cn/cp/gdxl/sd_2.html",
+    "accessed_at": "2026-10-26",
+    "summary": "该品牌介绍浅黄饼皮和绿豆馅；仅证明这一品牌产品的介绍，供品类外观参考。",
+    "usage": "reference_only"
+  },
+  {
+    "id": "lg",
+    "type": "web",
+    "scope": "category",
+    "title": "立高食品：红豆饼/绿豆饼",
+    "locator": "https://www.ligaofoods.com/Product/index_181.html",
+    "accessed_at": "2026-10-26",
+    "summary": "页面列有脱皮绿豆及烘焙餐饮渠道；不能把冷冻半成品规格或烘烤要求用于本虚构即食点心。",
+    "usage": "reference_only"
+  },
+  {
+    "id": "mv",
+    "type": "web",
+    "scope": "category",
+    "title": "麦维客：速冻绿豆饼",
+    "locator": "https://www.mcvickarfoods.com/products_detail/269.html",
+    "accessed_at": "2026-10-26",
+    "summary": "产品介绍列有冻藏、烘烤及配料。不同SKU形态和储存方式不同，不能由品类推断通用配料与保质期。",
+    "usage": "reference_only"
+  },
+  {
+    "id": "concept",
+    "type": "user",
+    "scope": "concept",
+    "title": "用户授权虚构绿豆饼；Agent概念设定",
+    "locator": "fictional-product-A01",
+    "accessed_at": "2026-10-26",
+    "summary": "用于验证创作流程，非真实在售商品。圆形浅金酥皮、淡黄豆沙、素色小袋包装均是虚构外观设定。",
+    "usage": "owned"
+  }
+]

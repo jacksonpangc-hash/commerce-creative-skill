@@ -4,7 +4,7 @@
 
 把**商品事实、创意洞察、可编辑脚本分镜、视频与图片生成、发布审核**接成一条工作流。运行在本地 AI Agent 中，使用用户自己选择的云服务和密钥。
 
-**当前为 0.1.0 开源预览版。已完成本地离线测试和独立安装验证；真实账号权益、付费生成质量、实际平台发布仍待验收。**
+**0.2.0 增加完整商业创作合同、本地视频分析与制作、证据绑定的内容验收。接口调用、内容审阅、真实商品还原和投放效果分别报告；仍需自己的服务账号与授权。**
 
 ## 适合谁使用
 
@@ -22,6 +22,15 @@
 | 素材与定时 | 保留 Clipcat 云端素材和排期；支持下载、明确授权的暂存、FFmpeg 本地拼接 | 新适配器不会自动接入 Clipcat 云调度；本机执行依赖电脑运行 |
 
 推荐流程：**商品资料 → 选择洞察来源 → Agent 脚本与分镜 → 审核 → MiniMax H3 等生成 → 成片审核 → 选择账号发布 → 核对平台结果。**
+
+## 0.2 商业创作能力
+
+- 三种任务：定向分析、策略探索、灵感激发；由宿主 Agent 阅读实际证据、提出判断并写可编辑分镜。
+- 商品声明分真实、虚构和未知；分镜包含人群、购买任务、钩子、证明与行动。逐镜外观锁与共同参考图保持一致。
+- 本地视频全程解码、带时间戳采样帧及音轨导出；支持等比补边、标准化拼接、本地配音/音乐和确定性字幕。
+- 规格与实际视听审阅双重检查，绑定分镜、证据及成片指纹；只看采样或状态成功不能通过完整验收。
+
+详见 [完整绿豆饼案例](examples/mung-bean/README.md)、[商业流程](skills/commerce-creative/references/commercial.md)。本地媒体组件安装：`python -m pip install '.[media]'`。组件可选，核心准备和 API 编排仍只依赖标准库。
 
 ## 安装 Skill
 
@@ -54,8 +63,8 @@ Python 需要 **3.10 或更新版本**；macOS 自带版本可能过旧。核心
 ```bash
 python3 skills/commerce-creative/scripts/commerce.py init --project .
 python3 skills/commerce-creative/scripts/commerce.py doctor --project .
-python3 skills/commerce-creative/scripts/commerce.py storyboard-check examples/storyboard.json --project .
-python3 skills/commerce-creative/scripts/commerce.py storyboard-export examples/storyboard.json --provider minimax --out requests-v1 --project .
+python3 skills/commerce-creative/scripts/commerce.py storyboard-check examples/mung-bean/storyboard.json --project .
+python3 skills/commerce-creative/scripts/commerce.py storyboard-export examples/mung-bean/storyboard.json --provider minimax --out requests-v1 --project .
 python3 skills/commerce-creative/scripts/commerce.py prepare requests-v1/shot-1.json --project .
 ```
 
@@ -75,7 +84,7 @@ python3 skills/commerce-creative/scripts/commerce.py prepare requests-v1/shot-1.
 
 国内平台需要项目内 SAU 引擎、浏览器与用户登录，见[发布配置](docs/PUBLISHING.md)。安装工具、账号登录、上传受理、排期受理和作品公开是不同步骤。当前版本没有统一的国内平台发布回读验收接口；应到创作者中心核对准确作品。
 
-超时后保留原回执，先查原任务或作品，不直接重发。蝉镜刷新 token 会让旧 token 失效，默认使用已有 token。FFmpeg/ffprobe 是独立依赖；缺失或片段参数不一致时，拼接会明确停止。
+超时后保留原回执，先查原任务或作品，不直接重发。蝉镜刷新 token 会让旧 token 失效，默认使用已有 token。旧 `compose` 使用独立 FFmpeg/ffprobe；新 `render` 使用项目可选媒体组件，可标准化不同编码镜头并添加字幕。
 
 ## 开发与验证
 
@@ -86,7 +95,7 @@ python3 -m build
 python3 scripts/package_release.py --output dist/source
 ```
 
-当前本地离线测试为 60 项。GitHub Actions 配置覆盖 Python 3.10/3.12 与 macOS/Linux/Windows；具体云端结果以仓库的 Actions 为准。离线接口测试不代表模型质量或真实平台功能通过。
+本地测试结果见 [验证记录](docs/VALIDATION.md)，覆盖核心、供应商、商业合同、本地实码媒体与安全边界。GitHub Actions 配置覆盖 Python 3.10/3.12 与 macOS/Linux/Windows；具体云端结果以仓库的 Actions 为准。离线接口测试不代表模型质量或真实平台功能通过。
 
 ## 文档与贡献
 

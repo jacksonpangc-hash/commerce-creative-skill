@@ -22,7 +22,7 @@ Windows 将上述解释器路径换成 `.venv\Scripts\python.exe`，命令换成
 
 数据源可选 Clipcat、蝉镜创意雷达或有米云。选择服务后，再配置对应环境变量。蝉镜返回品类创意报告，由当前 Agent 结合商品事实写脚本与分镜；报告不是逐条素材销量数据库。
 
-分镜可参考 `examples/storyboard.json`。这是合成格式示例，不能当作真实案例。修改 `visual`、`prompt`、`narration` 或 `subtitle` 后重新检查，再导出新目录中的请求。
+商业分镜从 `examples/mung-bean/storyboard.json` 开始，完整流程见其 README 和 Skill 的 `references/commercial.md`。这是假设商品概念，不能当作真实 SKU 或投放案例。`examples/storyboard.json` 保留为 version-1 技术格式；修改任何已导出内容后重新检查并导出新目录，再准备请求。
 
 ## 4. 先准备，不生成
 

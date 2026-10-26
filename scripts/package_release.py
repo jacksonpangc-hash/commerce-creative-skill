@@ -46,7 +46,7 @@ def check_json_secrets(value):
 def package(root, output):
     root, output = Path(root).resolve(), Path(output).resolve()
     output.mkdir(parents=True, exist_ok=True)
-    archive = output / 'commerce-creative-skill-0.1.0.zip'
+    archive = output / 'commerce-creative-skill-0.2.0.zip'
     manifest = output / 'source-manifest.json'
     if archive.exists() or manifest.exists():
         raise FileExistsError('Choose a new output directory; release files already exist')
@@ -60,7 +60,7 @@ def package(root, output):
             info.external_attr = 0o100644 << 16
             z.writestr(info, data)
             hashes[name] = hashlib.sha256(data).hexdigest()
-    manifest.write_text(json.dumps({'version': '0.1.0', 'files': hashes,
+    manifest.write_text(json.dumps({'version': '0.2.0', 'files': hashes,
         'archive_sha256': hashlib.sha256(archive.read_bytes()).hexdigest()}, indent=2) + '\n')
     return archive
 

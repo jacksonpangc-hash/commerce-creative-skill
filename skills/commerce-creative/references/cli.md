@@ -1,5 +1,27 @@
 # 命令使用流程
 
+## 商业创作新增命令（0.2）
+
+以下命令均加 `--project PATH`，路径都在当前项目中；示例使用已配置的 Python 3.10+ 解释器与 Skill 内的 `scripts/commerce.py`。下面的媒体制作不调用模型，也不发布平台。
+
+```bash
+python scripts/commerce.py storyboard-check storyboard.json --project PATH
+python scripts/commerce.py storyboard-export storyboard.json --provider minimax --out requests-r1 --project PATH
+python scripts/commerce.py media-inspect local-reference.mp4 --out reference-inspection --samples 24 --project PATH
+python scripts/commerce.py render storyboard.json --segments segments.json --out final-r1.mp4 --project PATH
+python scripts/commerce.py media-inspect final-r1.mp4 --out final-inspection-r1 --samples 24 --project PATH
+python scripts/commerce.py review-template storyboard.json --inspection final-inspection-r1/inspection.json --out review-r1.json --project PATH
+python scripts/commerce.py acceptance-check storyboard.json --inspection final-inspection-r1/inspection.json --review review-r1.json --out acceptance-r1.json --project PATH
+```
+
+`segments.json` 将镜头 id 映射到下载后的视频路径。外部配音/音乐可在 render 时添加 `--voiceover voice.wav --music music.mp3`，自有或已获许可的字体可用 `--font-file font.ttf`；素材授权由用户/Agent核对。默认本地制作不启动第三方云服务。
+
+review-template 只建一个全部 UNKNOWN 的表，不替 Agent 看视频。实际完整观看并听音后才填写 PASS 与时间点；不能从退出码0推断内容通过。acceptance-check 返回 accepted=false 时停止交付为“已通过”，保留问题镜头并修改。
+
+本地组件安装：仓库解释器运行 `python -m pip install '.[media]'`；仅装 Skill 的用户，在同一个 Python 环境安装 `av>=14,<17`、`Pillow>=10,<13`、`imageio-ffmpeg>=0.6,<0.7`。遇到缺组件会报错，不改系统软件或偷偷下载依赖。
+
+下载在 TUN fake-DNS 下被公网检查拦截时，可选择 `download LOCAL_JOB_ID --public-dns --project PATH`，只查询当前产物主机名并固定公网连接，不改变其他任务的网络。普通私网不会因此放行。付费提交仍使用原有 prepare/execute 流程，下载兼容选项不会重新生成。
+
 使用 Python 3.10 或更新版本运行 `scripts/commerce.py`。通过 pip 安装后的命令名为 `commerce-creative`。所有项目命令都必须带 `--project PATH`；JSON、素材输入与输出限定在该项目根目录内。这是程序自身的路径校验，不能替代操作系统级权限隔离。
 
 1. `init --project PATH`：创建私有 `.commerce` 状态目录，不修改全局配置或凭据。

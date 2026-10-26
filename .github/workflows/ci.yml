@@ -14,6 +14,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - name: Project-local media test components
+        run: python -m pip install ".[media]"
       - name: Offline tests
         env:
           PYTHONPATH: skills/commerce-creative/scripts

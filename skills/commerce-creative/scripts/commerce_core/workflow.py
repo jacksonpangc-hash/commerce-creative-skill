@@ -6,12 +6,16 @@ from .core import CommerceError
 from .validation import require, validate_request
 
 
-def validate_storyboard(story):
+def validate_storyboard(story, ws=None):
+    if isinstance(story, dict) and story.get('version') == 2:
+        from .campaign import check_campaign
+        return check_campaign(story, ws)
     require(isinstance(story, dict) and story.get('version') == 1, 'Storyboard version must be 1')
     product = story.get('product', {})
     require(bool(product.get('name')) and isinstance(product.get('facts'), list), 'Provide product name and real facts')
-    require(all(isinstance(f, str) and f.strip() for f in product['facts']), 'Product facts must be nonempty strings')
+    require(bool(product['facts']) and all(isinstance(f, str) and f.strip() for f in product['facts']), 'Product facts must be nonempty strings')
     require(isinstance(story.get('sources'), list) and bool(story['sources']), 'Record the actual source(s)')
+    require(all(isinstance(s, dict) and s.get('provider') and (s.get('report') or s.get('url')) for s in story['sources']), 'Each source needs provider and locator')
     require(bool(story.get('platform')) and bool(story.get('language')), 'Specify platform and language')
     shots = story.get('shots')
     require(isinstance(shots, list) and bool(shots), 'Storyboard must contain shots')
@@ -24,10 +28,14 @@ def validate_storyboard(story):
         require(isinstance(duration, int) and not isinstance(duration, bool) and 1 <= duration <= 120, 'Invalid shot duration')
         require(bool(shot.get('visual')) and bool(shot.get('prompt')), 'Shot needs visual and generation prompt')
         require(isinstance(shot.get('narration', ''), str) and isinstance(shot.get('subtitle', ''), str), 'Narration/subtitle must be strings')
-    return {'valid': True, 'shot_count': len(shots), 'duration': sum(s['duration'] for s in shots)}
+    return {'valid': True, 'state': 'technical_storyboard_only', 'commercial_acceptance': 'NOT_RUN',
+            'shot_count': len(shots), 'duration': sum(s['duration'] for s in shots)}
 
 
-def export_requests(story, provider, ws, model=None, catalog_checked=False):
+def export_requests(story, provider, ws, model=None, catalog_checked=False, story_path=None):
+    if isinstance(story, dict) and story.get('version') == 2:
+        from .campaign import campaign_requests
+        return campaign_requests(story, provider, ws, model, catalog_checked, story_path)
     validate_storyboard(story)
     result = []
     for shot in story['shots']:
@@ -50,10 +58,14 @@ def export_requests(story, provider, ws, model=None, catalog_checked=False):
 
 
 def context_prompt(product, report, language='zh', platform='douyin'):
-    return {'task': 'Author an editable version-1 storyboard from this evidence; do not call paid tools.',
+    return {'task': 'Author an editable version-2 commercial storyboard from this evidence; do not call paid tools.',
             'product': product, 'report': report, 'language': language, 'platform': platform,
-            'output_fields': ['version', 'product', 'sources', 'platform', 'language', 'ratio', 'shots'],
-            'shot_fields': ['id', 'duration', 'visual', 'narration', 'subtitle', 'prompt', 'assets'],
+            'output_fields': ['version', 'id', 'revision', 'mode', 'product', 'sources', 'strategy', 'delivery', 'unknowns', 'platform', 'language', 'ratio', 'shots'],
+            'shot_fields': ['id', 'duration', 'role', 'purpose', 'claim_ids', 'visual', 'narration', 'subtitle', 'prompt', 'assets', 'acceptance'],
             'instructions': 'Preserve real product facts. Distinguish vendor insights from agent proposals. '
                             'Do not invent source metrics/timecodes. Fit each shot to the selected video model; '
-                            'the user reviews the storyboard before generation.'}
+                            'Version 2 requires evidence-scoped claims, audience, buying task, hook/proof/CTA, '
+                            'visual identity, observable per-shot acceptance, assumptions and unknowns. '
+                            'Real, fictional and unknown SKU statements remain distinct. Category or competitor facts '
+                            'do not verify this SKU. For explore/inspire compare distinct original angles with rationale. '
+                            'The user reviews the storyboard and exact new budget before generation.'}

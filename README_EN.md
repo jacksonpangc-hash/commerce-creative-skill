@@ -1,3 +1,5 @@
+> Version 0.2 adds evidence-scoped commercial storyboards, directed/explore/inspire workflows, local frame/audio inspection, normalized editing/subtitles, and fingerprint-bound editorial acceptance. See the [complete fictional mung-bean case](examples/mung-bean/README.md) and [Chinese workflow guide](skills/commerce-creative/references/commercial.md). Install optional local media support with `python -m pip install '.[media]'`. Earlier 0.1 validation below is historical.
+
 # Commerce Creative Skill
 
 [中文说明](README.md)

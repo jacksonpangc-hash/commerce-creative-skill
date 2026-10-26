@@ -36,7 +36,7 @@ def install(repo, destination):
     destination.mkdir(parents=True, exist_ok=True)
     staging = destination / ('.commerce-creative-install-' + uuid.uuid4().hex)
     staging.mkdir()
-    manifest = {'version': '0.1.0', 'python': sys.executable, 'files': {}}
+    manifest = {'version': '0.2.0', 'python': sys.executable, 'files': {}}
     try:
         for name, file in files:
             copy = staging / name

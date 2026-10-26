@@ -1,6 +1,6 @@
 interface:
   display_name: "电商素材创作与多平台发布"
-  short_description: "组合蝉妈妈洞察、可编辑分镜、多家图像视频模型与平台发布，保留来源和任务进度"
-  default_prompt: "使用 $commerce-creative，先核对商品事实、目标平台和服务选择，准备可编辑脚本与分镜，确认费用后再生成。"
+  short_description: "分析电商素材、探索策略与灵感，联通有证据的分镜、多模型生成和成片验收"
+  default_prompt: "使用 $commerce-creative，核对商品事实与来源，明确人群、购买理由和目标，准备可编辑商业分镜，确认新费用后生成并完整检查成片。"
 policy:
   allow_implicit_invocation: true

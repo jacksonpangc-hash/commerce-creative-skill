@@ -1,8 +1,28 @@
 # 分镜格式与编写要求
 
+## 商业创作：version 2
+
+完整可编辑案例：[虚构绿豆饼](../assets/mung-bean-storyboard.json)。普通创作从此结构开始，业务判断方法见 [commercial.md](commercial.md)。version-1 仅用于兼容与技术试跑。
+
+| 字段 | 要求 |
+| --- | --- |
+| version/id/revision/mode | 2、项目内方案标识、正整数版本、directed/explore/inspire；修订可加 parent_digest 和修改理由 |
+| product | name、kind(real/fictional)、claims、visual_lock；fictional 还需 disclosure |
+| claims | 每项 id/text/status(verified/fictional/unknown)/evidence；被脚本采用的声明必须已支持或明确虚构 |
+| visual_lock | description、must_keep、avoid、reference_assets；没图用空数组，不能声称实物已还原 |
+| sources | 唯一 id、type(web/vendor/user/local)、scope(product/category/reference/concept)、title、locator、accessed_at(YYYY-MM-DD)、summary、usage(owned/licensed/reference_only/unknown)。vendor/local 的 locator 是项目内报告路径，必须 sha256 |
+| strategy | audience/situation/job/objective/angle/hook/proof/cta、claim_ids、evidence、assumptions、alternatives；alternative 含 angle/rationale/evidence，探索或灵感至少有不同的替代方向 |
+| delivery | duration 必须等于镜头时间和；audio(required/silent)、narration_mode(generated/external/none)、subtitle_mode(post/generated/none)、min_short_side、duration_tolerance(秒，0–2)、ratio_tolerance(比例相对误差，0–0.05) |
+| shots | 唯一 id、整数 duration、role(hook/proof/context/cta/proof_cta/hook_proof_cta)、purpose、claim_ids、visual、prompt、narration、subtitle、assets、acceptance(可观察标准数组) |
+| platform/language/ratio/unknowns | 目标平台、语言、固定比例、明确未知项列表；空未知项也要写 [] |
+
+第一镜是 hook，至少有 proof/proof_cta，最后是 cta/proof_cta；单镜短片可用 hook_proof_cta 承担三段目的。口播太密会警告，需要实际听音计时。真实商品缺少同一 SKU 的实物参考时只可保留草稿；明确用 product.visual_mode=concept 并填写 disclosure 后才能作为概念画面生成，验收仍是概念内容。参考素材另外标记 origin(real_product/concept) 和 rights(owned/licensed)，支持 image/video，原 role 与供应商限制继续有效。商品参考图是概念图时仍为概念交付。
+
+导出使用已保存真源，CLI 自动附带 `creative_contract`。生成请求里不要手改提示词：改分镜并重新导出。参考图和供应商参数发生变化时重新准备并审核。`post` 字幕不会要求模型生成汉字，交给本地制作；概念披露由 render 在每镜字幕中烧录，仍需肉眼检查。
+
 分镜 JSON 由当前 Agent 编写。CLI 的 `context` 只整理证据与提示资料，不能将其输出说成已经生成的创作结果。可以从仓库的 `examples/storyboard.json` 开始；仅安装 Skill 时，按下面的结构编写。
 
-## 必填结构
+## 兼容技术格式 version 1
 
 根对象需要以下字段：
 

@@ -1,0 +1,221 @@
+{
+  "version": 2,
+  "id": "mung-bean-A01",
+  "revision": 1,
+  "mode": "directed",
+  "product": {
+    "name": "概念绿豆饼 A-01（虚构）",
+    "kind": "fictional",
+    "disclosure": "虚构商品 · AI概念演示",
+    "claims": [
+      {
+        "id": "skin",
+        "text": "圆形浅金酥皮，断面有细小层次",
+        "status": "fictional",
+        "evidence": [
+          "concept"
+        ]
+      },
+      {
+        "id": "filling",
+        "text": "淡黄细腻豆沙内馅，无蛋黄、红豆或流心效果",
+        "status": "fictional",
+        "evidence": [
+          "concept"
+        ]
+      },
+      {
+        "id": "pack",
+        "text": "米白小袋、绿色色带、无品牌标识的概念包装",
+        "status": "fictional",
+        "evidence": [
+          "concept"
+        ]
+      },
+      {
+        "id": "commerce",
+        "text": "售价、净含量、配料、保质期、营养、销量、评价均未知",
+        "status": "unknown",
+        "evidence": []
+      }
+    ],
+    "visual_lock": {
+      "description": "A-01为同一种扁圆绿豆饼：浅金圆顶、底部略深、淡黄豆沙断面；同一米白无标识小袋配绿色色带，白瓷小碟，暖灰桌面。",
+      "must_keep": [
+        "饼体扁圆，直径约为厚度的三到四倍（仅视觉设定）",
+        "外皮浅金有细碎酥层，内馅始终淡黄、不流动",
+        "所有镜头使用同一饼形、同一包装颜色和无标识设计",
+        "商品和关键动作在画面中央安全区，CTA留白"
+      ],
+      "avoid": [
+        "蛋黄、红色馅、拉丝、流心或颜色突变",
+        "捏塑形变、缺手指或多手指、穿模",
+        "虚构品牌、销量、证书、价格、营养或健康暗示",
+        "把绿豆糕、绿豆椪或月饼外观混进同一SKU"
+      ],
+      "reference_assets": []
+    }
+  },
+  "sources": [
+    {
+      "id": "dx",
+      "type": "web",
+      "scope": "category",
+      "title": "稻香村官网：糕点系列绿豆饼",
+      "locator": "https://www.daoxiangcun.cn/cp/gdxl/sd_2.html",
+      "accessed_at": "2026-10-26",
+      "summary": "该品牌介绍浅黄饼皮和绿豆馅；仅证明这一品牌产品的介绍，供品类外观参考。",
+      "usage": "reference_only"
+    },
+    {
+      "id": "lg",
+      "type": "web",
+      "scope": "category",
+      "title": "立高食品：红豆饼/绿豆饼",
+      "locator": "https://www.ligaofoods.com/Product/index_181.html",
+      "accessed_at": "2026-10-26",
+      "summary": "页面列有脱皮绿豆及烘焙餐饮渠道；不能把冷冻半成品规格或烘烤要求用于本虚构即食点心。",
+      "usage": "reference_only"
+    },
+    {
+      "id": "mv",
+      "type": "web",
+      "scope": "category",
+      "title": "麦维客：速冻绿豆饼",
+      "locator": "https://www.mcvickarfoods.com/products_detail/269.html",
+      "accessed_at": "2026-10-26",
+      "summary": "产品介绍列有冻藏、烘烤及配料。不同SKU形态和储存方式不同，不能由品类推断通用配料与保质期。",
+      "usage": "reference_only"
+    },
+    {
+      "id": "concept",
+      "type": "user",
+      "scope": "concept",
+      "title": "用户授权虚构绿豆饼；Agent概念设定",
+      "locator": "fictional-product-A01",
+      "accessed_at": "2026-10-26",
+      "summary": "用于验证创作流程，非真实在售商品。圆形浅金酥皮、淡黄豆沙、素色小袋包装均是虚构外观设定。",
+      "usage": "owned"
+    }
+  ],
+  "platform": "douyin",
+  "language": "zh",
+  "ratio": "9:16",
+  "strategy": {
+    "audience": "想在办公室休息时找一份中式点心、偏好先看实物断面的成年人（待验证人群假设）",
+    "situation": "下午休息，准备一杯茶，想先看清点心外观和内馅再做选择",
+    "job": "减少只看包装却不知道里面是什么的选择成本",
+    "objective": "18秒内让观众识别绿豆饼、看清断面，并知道购买前应核对配料和规格",
+    "angle": "先看内馅，再选点心",
+    "hook": "挑绿豆饼，我先看里面。",
+    "proof": "以连续掰开动作和近景展示概念饼皮及内馅；只说明画面外观，不把AI画面当作实物、口味或品质检测",
+    "cta": "先看配料与规格，再选适合自己的。",
+    "claim_ids": [
+      "skin",
+      "filling",
+      "pack"
+    ],
+    "evidence": [
+      "dx",
+      "lg",
+      "concept"
+    ],
+    "assumptions": [
+      "办公室下午茶是创意使用情境，未进行用户访谈或转化试验",
+      "剖面先行可能降低理解成本，传播和销量效果尚未验证"
+    ],
+    "alternatives": [
+      {
+        "angle": "下午茶场景先行",
+        "rationale": "用杯茶与短暂休息建立情境；更易理解用途，但开头必须尽快呈现商品，不能只拍氛围。待A/B验证。",
+        "evidence": [
+          "concept",
+          "lg"
+        ]
+      },
+      {
+        "angle": "拆袋看清外观",
+        "rationale": "用从包装到断面的连续动作回答里面是什么；不能声称真实包装、发货或保质期。",
+        "evidence": [
+          "concept"
+        ]
+      }
+    ]
+  },
+  "delivery": {
+    "duration": 18,
+    "audio": "required",
+    "narration_mode": "generated",
+    "subtitle_mode": "post",
+    "min_short_side": 720,
+    "duration_tolerance": 0.25,
+    "ratio_tolerance": 0.01
+  },
+  "unknowns": [
+    "真实SKU、真实实物参考图与生产工艺不存在；仅限概念内容",
+    "原料、过敏原、价格、净含量、保质期和营养声明未设定，不出现在营销稿",
+    "没有千川投放、GMV、点赞或真实购买数据，不能称为已验证爆款",
+    "蝉镜/Clipcat/有米云付费数据库未调用；这里是公开品类资料，不替代专有素材覆盖"
+  ],
+  "shots": [
+    {
+      "id": "s1",
+      "duration": 6,
+      "role": "hook",
+      "purpose": "先给出看内馅的选购角度，连续动作引出断面",
+      "claim_ids": [
+        "skin",
+        "filling"
+      ],
+      "visual": "中央白碟上一个完整扁圆小饼，一双正常手缓慢掰开，淡黄内馅出现；不把商品挤出画框。",
+      "prompt": "竖屏写实食品广告概念。白瓷碟，暖灰桌面，柔和自然侧光。同一个浅金扁圆绿豆饼位于中央，从完整到双手缓慢掰开，展现淡黄豆沙断面。饼的尺寸比例、内馅颜色不变；少量真实细碎酥皮，不夸张飞散。镜头固定微推进。保留完整动作和双手，避免裁掉商品。口播自然克制，所有内容是虚构商品概念。",
+      "narration": "挑绿豆饼，我先看里面。",
+      "subtitle": "挑绿豆饼，先看里面",
+      "assets": [],
+      "acceptance": [
+        "开头1秒即可识别饼，3秒内开始掰开动作",
+        "掰开前后是同一种饼，断面淡黄无蛋黄或流心",
+        "手部正常，商品不出框，口播完整清晰"
+      ]
+    },
+    {
+      "id": "s2",
+      "duration": 6,
+      "role": "proof",
+      "purpose": "用可见断面兑现开头，帮助理解外皮与内馅的区别",
+      "claim_ids": [
+        "skin",
+        "filling"
+      ],
+      "visual": "同一小饼的半块切面放在前景，完整饼在后；缓慢移动展示层次和豆沙。",
+      "prompt": "延续同一白碟、暖灰桌面、侧光与浅金绿豆饼。近景看半块断面，旁边可见完整小饼，淡黄细腻豆沙与细小酥皮层次清晰，轻微横向运镜但不改变形状。不是绿豆糕，不含蛋黄，不做拉丝流心。只呈现概念视觉，不画功效证明。",
+      "narration": "酥皮、豆沙，近一点看清楚。",
+      "subtitle": "看清酥皮与豆沙断面",
+      "assets": [],
+      "acceptance": [
+        "清楚显示外皮和淡黄内馅，兑现看里面的承诺",
+        "与前镜头颜色、厚度和饼形相符",
+        "无无依据的营养、低糖、口感保证或销量字幕"
+      ]
+    },
+    {
+      "id": "s3",
+      "duration": 6,
+      "role": "cta",
+      "purpose": "放回配茶情境，并给出明确、可信的选购动作",
+      "claim_ids": [
+        "pack"
+      ],
+      "visual": "完整小饼、半块、无标识米白绿带小袋与杯茶同框，主商品居中，周围留字幕空间。",
+      "prompt": "同一绿豆饼概念的结束镜头：白碟上一个完整浅金小饼及一半淡黄豆沙断面，后侧同一米白小袋加绿色色带，无品牌、数字或文字，旁边一杯清茶。缓慢拉远，保持饼是画面主体，暖灰背景，中央与底部上方留字幕安全区。不得生成店铺按钮或真实销售承诺。",
+      "narration": "先看配料与规格，再选适合自己的。",
+      "subtitle": "先核对配料与规格，再做选择",
+      "assets": [],
+      "acceptance": [
+        "包装仅为已声明的无品牌概念，没有虚构销量和售价",
+        "饼形、馅色保持一致，茶不抢主体",
+        "最后行动指令和概念披露可读，声音完整不截断"
+      ]
+    }
+  ]
+}

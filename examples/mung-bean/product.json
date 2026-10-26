@@ -1,0 +1,53 @@
+{
+  "name": "概念绿豆饼 A-01（虚构）",
+  "kind": "fictional",
+  "disclosure": "虚构商品 · AI概念演示",
+  "claims": [
+    {
+      "id": "skin",
+      "text": "圆形浅金酥皮，断面有细小层次",
+      "status": "fictional",
+      "evidence": [
+        "concept"
+      ]
+    },
+    {
+      "id": "filling",
+      "text": "淡黄细腻豆沙内馅，无蛋黄、红豆或流心效果",
+      "status": "fictional",
+      "evidence": [
+        "concept"
+      ]
+    },
+    {
+      "id": "pack",
+      "text": "米白小袋、绿色色带、无品牌标识的概念包装",
+      "status": "fictional",
+      "evidence": [
+        "concept"
+      ]
+    },
+    {
+      "id": "commerce",
+      "text": "售价、净含量、配料、保质期、营养、销量、评价均未知",
+      "status": "unknown",
+      "evidence": []
+    }
+  ],
+  "visual_lock": {
+    "description": "A-01为同一种扁圆绿豆饼：浅金圆顶、底部略深、淡黄豆沙断面；同一米白无标识小袋配绿色色带，白瓷小碟，暖灰桌面。",
+    "must_keep": [
+      "饼体扁圆，直径约为厚度的三到四倍（仅视觉设定）",
+      "外皮浅金有细碎酥层，内馅始终淡黄、不流动",
+      "所有镜头使用同一饼形、同一包装颜色和无标识设计",
+      "商品和关键动作在画面中央安全区，CTA留白"
+    ],
+    "avoid": [
+      "蛋黄、红色馅、拉丝、流心或颜色突变",
+      "捏塑形变、缺手指或多手指、穿模",
+      "虚构品牌、销量、证书、价格、营养或健康暗示",
+      "把绿豆糕、绿豆椪或月饼外观混进同一SKU"
+    ],
+    "reference_assets": []
+  }
+}

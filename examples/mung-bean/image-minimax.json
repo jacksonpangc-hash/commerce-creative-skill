@@ -1,0 +1,17 @@
+{
+  "operation": "image",
+  "provider": "minimax",
+  "params": {
+    "model": "image-01",
+    "n": 1,
+    "ratio": "9:16",
+    "prompt": "虚构绿豆饼 A-01 的统一商品概念参考图，写实食品摄影。暖灰桌面，白瓷小碟，两个同样的扁圆浅金绿豆饼，一个完整，一个切半，淡黄细腻豆沙断面清晰，外皮细小酥层；米白无标识小袋加一条绿色色带置后侧，清茶放边缘。柔和自然侧光，商品中央、完整可见，比例三到四倍宽于厚度，拒绝蛋黄、流心、拉丝、红馅和绿豆糕形状。不生成任何文字、商标、数字、真实品牌、销售或功效声明。这是虚构商品概念参考，不是实物摄影证明。",
+    "assets": []
+  },
+  "cost": {
+    "estimate": 0.025,
+    "currency": "CNY",
+    "source": "https://platform.minimax.cn/docs/pricing/overview",
+    "checked_at": "2026-10-26"
+  }
+}
