@@ -49,7 +49,7 @@ def compose(ws, inputs, output, ffmpeg=None, ffprobe=None, runner=subprocess.run
     signatures = []
     for file in files:
         r = runner([ffprobe, '-v', 'error', '-show_streams', '-of', 'json', str(file)],
-                   capture_output=True, text=True, timeout=30, shell=False)
+                   capture_output=True, text=True, encoding='utf-8', timeout=30, shell=False)
         if r.returncode:
             raise CommerceError('Cannot inspect video segment')
         streams = json.loads(r.stdout)['streams']
@@ -61,10 +61,10 @@ def compose(ws, inputs, output, ffmpeg=None, ffprobe=None, runner=subprocess.run
     target.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(dir=ws.state) as tmp:
         listing = Path(tmp) / 'segments.txt'
-        listing.write_text(''.join("file '" + str(f).replace("'", "'\\''") + "'\n" for f in files))
+        listing.write_text(''.join("file '" + str(f).replace("'", "'\\''") + "'\n" for f in files), encoding='utf-8')
         r = runner([ffmpeg, '-nostdin', '-n', '-v', 'error', '-f', 'concat', '-safe', '0',
                     '-protocol_whitelist', 'file,pipe', '-i', str(listing), '-c', 'copy',
-                    '-movflags', '+faststart', str(target)], capture_output=True, text=True,
+                    '-movflags', '+faststart', str(target)], capture_output=True, text=True, encoding='utf-8',
                    timeout=300, shell=False)
     if r.returncode:
         target.unlink(missing_ok=True)

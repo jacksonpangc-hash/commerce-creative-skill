@@ -18,7 +18,7 @@ def install(repo, destination):
         raise FileExistsError('Destination exists; compare/back up local changes before upgrading: ' + str(target))
     if not (source / 'SKILL.md').is_file():
         raise FileNotFoundError('Skill source not found')
-    entries = json.loads((source / 'skill-files.json').read_text())
+    entries = json.loads((source / 'skill-files.json').read_text(encoding='utf-8'))
     files = []
     for name in entries:
         rel = Path(name)
@@ -43,7 +43,7 @@ def install(repo, destination):
             copy.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(file, copy)
             manifest['files'][name] = hashlib.sha256(copy.read_bytes()).hexdigest()
-        (staging / 'installation-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
+        (staging / 'installation-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
         if target.exists() or target.is_symlink():
             raise FileExistsError('Destination appeared during installation')
         os.rename(staging, target)
@@ -54,6 +54,8 @@ def install(repo, destination):
 
 
 def main():
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
     p = argparse.ArgumentParser()
     p.add_argument('--destination', default=str(Path.home() / '.codex/skills'))
     args = p.parse_args()

@@ -49,6 +49,16 @@ class CLITests(unittest.TestCase):
         with self.assertRaises(CommerceError):
             compose(ws, ['a.mp4'], '../escape.mp4')
 
+    def test_chinese_json_output_is_utf8_even_under_ascii_locale(self):
+        self.cli('init', '--project', str(self.root))
+        (self.root / 'request.json').write_text(json.dumps({'operation': 'video', 'provider': 'minimax',
+            'params': {'prompt': '虚构绿豆饼', 'duration': 6}}), encoding='utf-8')
+        env = {**os.environ, 'LC_ALL': 'C', 'PYTHONUTF8': '0', 'PYTHONCOERCECLOCALE': '0'}
+        result = subprocess.run([sys.executable, str(SCRIPT), 'prepare', 'request.json', '--project', str(self.root)],
+            env=env, capture_output=True, text=True, encoding='utf-8')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)['request']['params']['prompt'], '虚构绿豆饼')
+
 
 if __name__ == '__main__':
     unittest.main()

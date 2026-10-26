@@ -94,7 +94,7 @@ def metadata(path):
 
 def ffmpeg_run(argv, cwd=None):
     try:
-        result = subprocess.run(argv, cwd=cwd, capture_output=True, text=True, timeout=900, shell=False)
+        result = subprocess.run(argv, cwd=cwd, capture_output=True, text=True, encoding='utf-8', timeout=900, shell=False)
     except (OSError, subprocess.TimeoutExpired) as e:
         raise CommerceError('Local media process could not complete; originals retained') from e
     if result.returncode:
@@ -224,7 +224,7 @@ def render_media(ws, story, segments, out, voiceover=None, music=None, font_file
                 '-af', 'aresample=48000,apad', '-t', str(shot['duration']), '-c:v', 'libx264', '-preset', 'fast',
                 '-crf', '18', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-ar', '48000', '-ac', '2', str(temp / f'{index}.mp4')]
             ffmpeg_run(argv)
-        (temp / 'segments.txt').write_text(''.join(f"file '{i}.mp4'\n" for i in range(len(sources))))
+        (temp / 'segments.txt').write_text(''.join(f"file '{i}.mp4'\n" for i in range(len(sources))), encoding='utf-8')
         argv = [ffmpeg, '-nostdin', '-n', '-v', 'error', '-f', 'concat', '-safe', '1',
                 '-protocol_whitelist', 'file,pipe', '-i', 'segments.txt']
         next_index = 1

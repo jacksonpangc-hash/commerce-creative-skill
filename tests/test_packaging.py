@@ -1,5 +1,8 @@
 import importlib.util
 import json
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -8,6 +11,13 @@ REPO = Path(__file__).resolve().parents[1]
 
 
 class PackagingTests(unittest.TestCase):
+    def test_real_source_archive_handles_chinese_paths_under_non_utf8_locale(self):
+        with tempfile.TemporaryDirectory() as d:
+            env = {**os.environ, 'LC_ALL': 'C', 'PYTHONUTF8': '0', 'PYTHONCOERCECLOCALE': '0'}
+            result = subprocess.run([sys.executable, str(REPO / 'scripts/package_release.py'), '--output', d],
+                cwd=REPO, env=env, capture_output=True, text=True, encoding='utf-8')
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue((Path(d) / 'commerce-creative-skill-0.2.0.zip').is_file())
     def module(self, name):
         spec = importlib.util.spec_from_file_location(name, REPO / 'scripts' / (name + '.py'))
         mod = importlib.util.module_from_spec(spec)
@@ -51,14 +61,14 @@ class PackagingTests(unittest.TestCase):
 
     def test_sdist_manifest_includes_skill_install_manifest(self):
         # The installer must work from the source tarball as well as the Git checkout.
-        rules = (REPO / 'MANIFEST.in').read_text().splitlines()
-        entries = json.loads((REPO / 'release-files.json').read_text())
+        rules = (REPO / 'MANIFEST.in').read_text(encoding='utf-8').splitlines()
+        entries = json.loads((REPO / 'release-files.json').read_text(encoding='utf-8'))
         for name in entries:
             self.assertIn('include ' + name, rules)
 
     def test_every_skill_install_file_is_public_source(self):
-        public = set(json.loads((REPO / 'release-files.json').read_text()))
-        install = json.loads((REPO / 'skills/commerce-creative/skill-files.json').read_text())
+        public = set(json.loads((REPO / 'release-files.json').read_text(encoding='utf-8')))
+        install = json.loads((REPO / 'skills/commerce-creative/skill-files.json').read_text(encoding='utf-8'))
         for name in install:
             self.assertIn('skills/commerce-creative/' + name, public)
             self.assertFalse(any(part.endswith('.egg-info') for part in Path(name).parts))

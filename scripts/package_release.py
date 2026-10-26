@@ -14,7 +14,7 @@ ROOT_DIRS = {'skills', 'scripts', 'tests', 'docs', 'examples', '.github'}
 
 
 def source_files(root):
-    entries = json.loads((root / 'release-files.json').read_text())
+    entries = json.loads((root / 'release-files.json').read_text(encoding='utf-8'))
     for name in sorted(entries):
         rel = Path(name)
         if rel.is_absolute() or '..' in rel.parts or any(x in {'__pycache__', '.commerce', '.venv', '.git', 'cookies', 'accounts'} for x in rel.parts):
@@ -61,11 +61,14 @@ def package(root, output):
             z.writestr(info, data)
             hashes[name] = hashlib.sha256(data).hexdigest()
     manifest.write_text(json.dumps({'version': '0.2.0', 'files': hashes,
-        'archive_sha256': hashlib.sha256(archive.read_bytes()).hexdigest()}, indent=2) + '\n')
+        'archive_sha256': hashlib.sha256(archive.read_bytes()).hexdigest()}, indent=2) + '\n', encoding='utf-8')
     return archive
 
 
 if __name__ == '__main__':
+    import sys
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8')
     p = argparse.ArgumentParser()
     p.add_argument('--output', default='dist/source')
     args = p.parse_args()

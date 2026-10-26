@@ -126,7 +126,7 @@ def build_clipcat_command(req, ws):
 
 
 def run_json(command, ws, runner=subprocess.run):
-    result = runner(command, cwd=ws.root, capture_output=True, text=True, timeout=180, shell=False)
+    result = runner(command, cwd=ws.root, capture_output=True, text=True, encoding='utf-8', timeout=180, shell=False)
     if result.returncode:
         raise CommerceError('Clipcat command failed (exit ' + str(result.returncode) + '); no automatic retry')
     try:

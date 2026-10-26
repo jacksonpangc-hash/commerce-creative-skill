@@ -153,6 +153,9 @@ def run(args):
 
 
 def main(argv=None):
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8')
     args = parser().parse_args(argv)
     try:
         result = run(args)

@@ -51,7 +51,8 @@ def dispatch_sau(plan, ws, runner=subprocess.run):
             'Project-owned SAU checkout/runtime missing; see docs/PUBLISHING.md')
     # SAU's zero exit is submission evidence, not proof a post is publicly visible.
     env = {**os.environ, 'PLAYWRIGHT_BROWSERS_PATH': str(ws.path('.commerce/browsers'))}
-    result = runner(cmd, cwd=cwd, capture_output=True, text=True, timeout=900, shell=False, env=env)
+    env['PYTHONIOENCODING'] = 'utf-8'
+    result = runner(cmd, cwd=cwd, capture_output=True, text=True, encoding='utf-8', timeout=900, shell=False, env=env)
     log_path = '.commerce/outputs/' + plan['id'] + '-publisher.txt'
     from .core import redact
     ws.path(log_path).write_text(redact(result.stdout + '\n' + result.stderr), encoding='utf-8')
