@@ -17,11 +17,13 @@ class PackagingTests(unittest.TestCase):
             # Setting LC_ALL=C on POSIX also changes the filesystem codec: that tests a different failure.
             wrapper = '''import io, runpy, sys
 original_open = io.open
-def legacy_open(file, mode='r', buffering=-1, encoding=None, *args, **kwargs):
-    if 'b' not in mode and encoding is None:
-        encoding = 'cp1252'
-    return original_open(file, mode, buffering, encoding, *args, **kwargs)
-io.open = legacy_open
+class LegacyOpen:
+    def __call__(self, file, mode='r', buffering=-1, encoding=None, *args, **kwargs):
+        if 'b' not in mode and encoding is None:
+            encoding = 'cp1252'
+        return original_open(file, mode, buffering, encoding, *args, **kwargs)
+# A callable object stays unbound when Python 3.10 stores it on its path accessor.
+io.open = LegacyOpen()
 script, output = sys.argv[1:]
 sys.argv = [script, '--output', output]
 runpy.run_path(script, run_name='__main__')
